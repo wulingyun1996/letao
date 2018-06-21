@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>首页</title>
+  <title>二级分类</title>
   <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
   <link rel="stylesheet" href="lib/nprogress/nprogress.css ">
   <link rel="stylesheet" href="css/common.css">
@@ -23,7 +23,7 @@
     <div class="nav">
       <ul>
         <li>
-          <a  href="user.html">
+          <a href="user.html">
             <span class="glyphicon glyphicon-user"></span>
             <span>用户管理</span>
           </a>
@@ -33,9 +33,9 @@
             <span class="glyphicon glyphicon-list"></span>
             <span>分类管理</span>
           </a>
-          <div class="child" style="display: none">
-            <a href="first.html">一级分类</a>
-            <a href="second.html">二级分类</a>
+          <div class="child" style="display: block">
+            <a  href="first.html">一级分类</a>
+            <a class="now"  href="second.html">二级分类</a>
           </div>
         </li>
         <li>
@@ -61,7 +61,10 @@
         <li>
           <a href="#">管理系统</a>
         </li>
-        <li class="active">首页</li>
+        <li>
+          <a href="#">分类管理</a>
+        </li>
+        <li class="active">二级分类</li>
       </ol>
       <!-- 内容区域 -->
       <div class="content">111</div>
