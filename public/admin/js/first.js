@@ -1,5 +1,4 @@
 $(function() {
-  //动态获取数据
   var page = 1;
   var pageSize = 5;
 
@@ -8,7 +7,7 @@ $(function() {
   function render() {
     $.ajax({
       type: "get",
-      url: "/user/queryUser",
+      url: "/category/queryTopCategoryPaging",
       data: {
         page: page,
         pageSize: pageSize
@@ -16,11 +15,10 @@ $(function() {
       success: function(info) {
         // console.log(info);
         $("tbody").html(template("tpl", info));
-
         $("#paginator").bootstrapPaginator({
           bootstrapMajorVersion: 3,
-          size: "small",
           currentPage: page,
+          size: "small",
           totalPages: Math.ceil(info.total / info.size),
           onPageClicked: function(a, b, c, p) {
             page = p;
@@ -40,7 +38,7 @@ $(function() {
                 return page;
             }
           },
-          tooltipTitles: function(type, page) {
+          tooltipTitles:function(type,page){
             switch (type) {
               case "first":
                 return "首页";
@@ -54,52 +52,65 @@ $(function() {
                 return page;
             }
           },
-          useBootstrapTooltip: true,
-          bootstrapTooltipOptions: {
-            placement: "bottom"
+          useBootstrapTooltip:true,
+          bootstrapTooltipOptions:{
+            placement: 'bottom',
           }
         });
       }
     });
-  }
+  };
 
-  // 启用或切换功能
+  // 显示模态框功能
 
-  $("tbody").on("click", ".btn", function() {
-    $("#statrModal").modal("show");
 
-    var id = $(this).parent().data("id");
-    var isDelete = $(this).hasClass("btn-success") ? 1 : 0;
+  $(".btn_add").on("click",function(){
+    $("#addModal").modal('show');
+  })
 
-    $(".btn_start").off().on("click",function(){
-      $.ajax({
-        type:'post',
-        url:"/user/updateUser",
-        data:{
-          id:id,
-          isDelete:isDelete
-        },
-        success:function(info){
-          // console.log(info);
-          if(info.success){
-            $("#statrModal").modal("hide");
-            render();
-          }
+// 表单验证功能
+
+$("form").bootstrapValidator({
+
+  //指定小图标
+  feedbackIcons: {
+    valid: 'glyphicon glyphicon-thumbs-up',
+    invalid: 'glyphicon glyphicon-remove',
+    validating: 'glyphicon glyphicon-refresh'
+  },
+  
+  fields: {
+    categoryName: {
+      validators: {
+        notEmpty: {
+          message: '一级分类的名称不能空'
         }
-      });
-    })
+      }
+    }
+  }
+});
 
+// 添加功能
 
+$("form").on("success.form.bv",function(e){
+  e.preventDefault();
 
-
+  $.ajax({
+    type:"post",
+    url:"/category/addTopCategory",
+    data:$("form").serialize(),
+    success:function(info){
+      // console.log(info);
+      if(info.success){
+        $("#addModal").modal('hide');
+        page=1;
+        render();
+        $("form").data("bootstrapValidator").resetForm(true);
+      }
+    }
   });
 
-
-
-
-
-
-
+})
 
 
 
